@@ -39,54 +39,54 @@ int main(int argc, char **argv)
   int delay = DEFAULT_DELAY;
 
   // Parse command-line arguments
-  int i = 1;
-  while (i < argc)
+  int arg_index = 1;
+  while (arg_index < argc)
   {
-    if (argv[i][0] == '-')
+    if (argv[arg_index][0] == '-')
     {
-      switch (argv[i][1])
+      switch (argv[arg_index][1])
       {
       case 'R':
-        if (i + 1 < argc)
-          R = atof(argv[++i]);
+        if (arg_index + 1 < argc)
+          R = atof(argv[++arg_index]);
         break;
       case 'r':
-        if (i + 1 < argc)
-          r = atof(argv[++i]);
+        if (arg_index + 1 < argc)
+          r = atof(argv[++arg_index]);
         break;
       case 'K':
-        if (argv[i][2] == '1' && i + 1 < argc)
-          K1 = atof(argv[++i]);
-        else if (argv[i][2] == '2' && i + 1 < argc)
-          K2 = atof(argv[++i]);
+        if (argv[arg_index][2] == '1' && arg_index + 1 < argc)
+          K1 = atof(argv[++arg_index]);
+        else if (argv[arg_index][2] == '2' && arg_index + 1 < argc)
+          K2 = atof(argv[++arg_index]);
         break;
       case 'A':
-        if (i + 1 < argc)
-          speedA = atof(argv[++i]);
+        if (arg_index + 1 < argc)
+          speedA = atof(argv[++arg_index]);
         break;
       case 'B':
-        if (i + 1 < argc)
-          speedB = atof(argv[++i]);
+        if (arg_index + 1 < argc)
+          speedB = atof(argv[++arg_index]);
         break;
       case 'd':
-        if (i + 1 < argc)
-          delay = atoi(argv[++i]);
+        if (arg_index + 1 < argc)
+          delay = atoi(argv[++arg_index]);
         break;
       case 'h':
         printUsage(argv[0]);
         return 0;
       default:
-        fprintf(stderr, "Unknown option: %s\n", argv[i]);
+        fprintf(stderr, "Unknown option: %s\n", argv[arg_index]);
         printUsage(argv[0]);
         return 1;
       }
     }
-    i++;
+    arg_index++;
   }
 
   // Rotation angles
   float A = 0, B = 0;
-  float i, j;
+  float theta, phi;
   int k;
 
   // z-buffer to store depth information
@@ -104,20 +104,20 @@ int main(int argc, char **argv)
     memset(b, 32, 1760); // Fill with spaces (ASCII 32)
     memset(z, 0, 7040);  // Clear z-buffer (7040 = 1760*4 bytes for float)
 
-    // Loop through angles phi (j) and theta (i)
-    for (j = 0; j < 6.28; j += 0.07)
+    // Loop through angles phi and theta
+    for (phi = 0; phi < 6.28; phi += 0.07)
     {
-      for (i = 0; i < 6.28; i += 0.02)
+      for (theta = 0; theta < 6.28; theta += 0.02)
       {
         // Calculate 3D coordinates and apply rotation
-        float c = sin(i);
-        float d = cos(j);
+        float c = sin(theta);
+        float d = cos(phi);
         float e = sin(A);
-        float f = sin(j);
+        float f = sin(phi);
         float g = cos(A);
         float h = d + R;                        // Use customizable major radius
         float D = 1 / (c * h * e + f * g + K2); // Use customizable K2
-        float l = cos(i);
+        float l = cos(theta);
         float m = cos(B);
         float n = sin(B);
         float t = c * h * g - f * e;
