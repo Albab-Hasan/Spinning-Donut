@@ -1,2 +1,2 @@
 # Spining-Donut
-A spining donut in C
+A spinning donut in C
