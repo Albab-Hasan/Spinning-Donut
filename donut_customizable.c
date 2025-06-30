@@ -6,7 +6,7 @@
 
 // Default parameters
 #define DEFAULT_R 2.0        // Major radius
-#define DEFAULT_r 1.0        // Minor radius
+#define DEFAULT_r 1.0        // Minor radius (not currently used but kept for future enhancements)
 #define DEFAULT_K1 30.0      // Projection constant 1
 #define DEFAULT_K2 5.0       // Projection constant 2
 #define DEFAULT_SPEED_A 0.04 // Rotation speed A
@@ -18,7 +18,7 @@ void printUsage(char *programName)
   printf("Usage: %s [options]\n", programName);
   printf("Options:\n");
   printf("  -R <value>  Major radius (default: %.1f)\n", DEFAULT_R);
-  printf("  -r <value>  Minor radius (default: %.1f)\n", DEFAULT_r);
+  printf("  -r <value>  Minor radius (default: %.1f) - Reserved for future use\n", DEFAULT_r);
   printf("  -K1 <value> Projection constant 1 (default: %.1f)\n", DEFAULT_K1);
   printf("  -K2 <value> Projection constant 2 (default: %.1f)\n", DEFAULT_K2);
   printf("  -A <value>  Rotation speed A (default: %.2f)\n", DEFAULT_SPEED_A);
@@ -31,7 +31,8 @@ int main(int argc, char **argv)
 {
   // Default parameters
   float R = DEFAULT_R;
-  float r = DEFAULT_r;
+  // Minor radius is reserved for future enhancements
+  // float r = DEFAULT_r;
   float K1 = DEFAULT_K1;
   float K2 = DEFAULT_K2;
   float speedA = DEFAULT_SPEED_A;
@@ -52,7 +53,13 @@ int main(int argc, char **argv)
         break;
       case 'r':
         if (arg_index + 1 < argc)
-          r = atof(argv[++arg_index]);
+        {
+          // Minor radius is reserved for future enhancements
+          // r = atof(argv[++arg_index]);
+          // Skip the value
+          arg_index++;
+          printf("Note: Minor radius parameter is reserved for future enhancements\n");
+        }
         break;
       case 'K':
         if (argv[arg_index][2] == '1' && arg_index + 1 < argc)
